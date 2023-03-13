@@ -1,68 +1,83 @@
 # Bash Commands Manual
 
-### Where am I?
-> * `0-current_working_directory` script or command `pwd` -- prints the absolute path name of the current working directory
+##  Hello World
+> 0-hello_world - script that prints “Hello, World”, followed by a new line to the standard output.
 
-### What's in there?
-> * `1-listit` script or command `ls` -- Display/list the contents of your current directory
+## Confused smiley
+> 1-confused_smiley - script that displays a confused smiley "(Ôo)'
 
-### There is no place like home
-> * `2-bring_me_home` script of commands `cd ~` or `cd $HOME'  -- Change the working directory to the user's home directory  
+## Let's display a file
+> 2-hellofile - script to display the content of the /etc/passwd file.
 
-### The long format
-> * `3-listfiles` script or command `ls -l` -- Display contents of the current directory in a long format
+## What about 2?
+> 3-twofiles - script to display the content of /etc/passwd and /etc/hosts
 
-### Hidden files
-> * `ls -a` -- Display current directory, including hidden files. Short format
-> * `4-listmorefiles` script or commands `ls -al` or `ll` -- Display current directory, including hidden files. Long format
+## Last lines of a file
+> 4-lastlines - script to display the last 10 lines of /etc/passwd
 
-### I love number
-> * `5-listfilesdigitonly` script or command `ls -anl` -- Display current directory contents in 'long format', 'with user and group IDs dispalyed numeriacally' and 'hidden files (starting with `.`)'
+## I'd prefer the first ones actually
+> 5-firstlines - script to display the first 10 lines of /etc/passwd
 
-### Welcome
-> * `6-firstdirectory` script or command `mkdir -p /tmp/my_first_directory` -- creates a directory named 'my_first_directory' in the `/tmp/` directory and if `/tmp` does not exist, create it.
+## Line #2
+> 6-third_line - script that displays the third line of the file iacta.
 
-### Betty in my first directory
-> * `7-movethatfile` script or `mv /tmp/betty /tmp/my_first_directory/` -- moves the file betty from `/tmp/` to `/tmp/my_first_directory` directory
+##  It is a good file that cuts iron without making a noise
+>  7-file - shell script that creates a file named exactly \*\\'"Best School"\'\\*$\?\*\*\*\*\*:) containing the text Best School ending by a new line.
 
-### Bye bye Betty
-> * `8-firstdelete` script or `rm /tmp/my_first_directory/betty` command  -- deletes the file betty from `/tmp/my_first_directory/` directory
+## Save current state of directory
+> 8-cwd_state -  script that writes into the file ls_cwd_content the result of the command ls -la. If the file ls_cwd_content already exists, it should be overwritten. If the file ls_cwd_content does not exist, create it.
 
-### Bye bye My first directory
-> * `9-firstdirdeletion` script or  `rm -r /tmp/my_first_directory/` command -- deletes the directory `my_first_directory` in the `/tmp` directory
+## Duplicate last line
+> 9-duplicate_last_line - script that duplicates the last line of the file iacta
 
-### Back to the future
-> * `10-back` script or `cd -` command -- changes the working directory to the previous one.
+## No more javascript
+> 10-no_more_js - script that deletes all the regular files (not the directories) with a .js extension that are present in the current directory and all its subfolders.
 
-### Lists
-> * `11-lists` script or `ls -al . ../ /boot` command -- lists all files in the current directory and in the parent of the working directory and the `boot` directory in long format.
+## Don't just count your directories, make your directories count
+> 11-directories - script that counts the number of directories and sub-directories in the current directory.
 
-### File type
-> * `12-file_type` script or `file /tmp/iamafile` command -- prints the type of the file named `iamafile` in the `/tmp` directory 
+## What's new
+> 12-newest_files - script that displays the 10 newest files in the current directory.
 
-### We are symbols, and inhabit symbols
-> * `13-symbolic_link` script or `ln -s /bin/ls __ls__` command -- creates a symbolic link to /bin/ls
+## Being unique is better than being perfect
+> 13-unique -  script that takes a list of words as input and prints only words that appear exactly once.
 
-### Copy HTML files
-> * `14-copy_html` script or `cp -u *.html ../` command -- copies all the HTML files from the current working directory to the parent of the working directory, but only copy files that did not exist in the parent of the working directory or were newer than the versions in the parent of the working directory.
+## It must be in that file
+> 14-findthatword - script to display lines containing the pattern “root” from the file /etc/passwd
 
-### Let's move
-> * `100-lets_move` script or `mv [[:upper:]]* /tmp/u` command --  moves all files beginning with an uppercase letter to the directory `/tmp/u`.
+## Count that word
+> 15-countthatword - script to display the number of lines that contain the pattern “bin” in the file /etc/passwd
 
-### Clean Emacs
-> * `101-clean_emacs` script or `rm *~` command  - deletes all files in the current working directory that end with the character `~`.
+## What's next?
+> 16-whatsnext -script to display lines containing the pattern “root” and 3 lines after them in the file /etc/passwd.
 
-### Tree
-> * `102-tree` script or `mkdir -p welcome/to/school` command  - creates the directories `welcome/`, `welcome/to/` and `welcome/to/school` in the current directory.
+## I hate bins
+> 17-hidethisword - script to display all the lines in the file /etc/passwd that do not contain the pattern “bin”.
 
-### Life is a series of commas, not periods
-> * `103-commas` script or `ls -xamp` command - lists all the files and directories of the current directory, separated by commas (,).
-> > > - Directory names should end with a slash `(/)`
-> > > - Files and directories starting with a dot `(.)` should be listed 
-> > > - The listing should be alpha ordered, except for the directories `.` and `..` which should be listed at the very beginning
-> > > - Only digits and letters are used to sort; Digits should come first
-> > > - You can assume that all the files we will test with will have at least one letter or one digit
-> > > - The listing should end with a new line
+## Letters only please
+> 18-letteronly - script to display all lines of the file /etc/ssh/sshd_config starting with a letter.
 
-### File type: School
-> * `school.mgc` file that can be used with the command `file` to detect `School` data files. `School` data files always contain the string 'SCHOOL at offset 0'.
+## A to Z
+> 19-AZ - script to replace all characters A and c from input to Z and e respectively.
+
+## Without C, you would live in hiago
+> 20-hiago - script that removes all letters c and C from input.
+
+## esreveR
+> 21-reverse - script that reverse its input.
+
+## DJ Cut Killer
+> 22-users_and_homes - script that displays all users and their home directories, sorted by users.
+
+## Empty casks make the most noise
+> 100-empty_casks - script that finds all empty files and directories in the current directory and all sub-directories.
+
+## A gif is worth ten thousand words
+> 101-gifs - script that lists all the files with a .gif extension in the current directory and all its sub-directories.
+
+## Acrostic
+``An acrostic is a poem (or other form of writing) in which the first letter (or syllable, or word) of each line (or paragraph, or other recurring feature in the text) spells out a word, message or the alphabet. The word comes from the French acrostiche from post-classical Latin acrostichis). As a form of constrained writing, an acrostic can be used as a mnemonic device to aid memory retrieval.``
+> 102-acrostic - script that decodes acrostics that use the first letter of each line.
+
+## The biggest fan
+> 103-the_biggest_fan - script that parses web servers logs in TSV format as input and displays the 11 hosts or IP addresses which did the most requests.
