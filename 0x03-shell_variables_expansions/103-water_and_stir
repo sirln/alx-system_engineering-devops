@@ -1,1 +1,2 @@
 #!/bin/bash
+echo $(( 6#$( echo $WATER | tr water 12345) + 6#$( echo $STIR | tr stir. 12345 ) )) | tr 12345678  bestchol
