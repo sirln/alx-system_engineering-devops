@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Displaying the content of the file /etc/passwd, (username user id, Home directory path for the user)
+# Telling a story with the content of the file /etc/passwd.
 file="/etc/passwd"
 while IFS=: read -r username password uid gid uid_info homedir cmd_shell;
 do
