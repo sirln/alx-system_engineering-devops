@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Displaying "Best School" 10 times
+# Displaying the time for 12 hours and 59 minutes
 hour=0
 while [ $hour -le 12 ]
 do
