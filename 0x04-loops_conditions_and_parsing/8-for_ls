@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Displaying content of current directory in a list format, where only the part of the name after the first dash is displayed
-for file in *
+for file in *-*
 do
-	if [[ -f $file && $file == *-* ]]
+	if [[ -f $file ]]
 	then
-		echo "${file#*-}"
+		echo "$file" | cut -d "-" -f2
 	fi
 done
