@@ -2,8 +2,5 @@
 # Displaying content of current directory in a list format, where only the part of the name after the first dash is displayed
 for file in *
 do
-	if [ $file == *-* ]
-	then
-		echo "${file#*_}"
-	fi
+	echo "${file#*-}"
 done
