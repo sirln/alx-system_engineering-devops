@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# checking number of arguments
+if [[ $# -lt 4 ]]; then 
+	echo "Usage: $(basename $0) PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+	exit
+fi
+
+FILE_PATH="$1"
+SERVER_IP="$2"
+USERNAME="$3"
+SSH_KEY_PATH="$4"
+
+# transfering file using scp
+scp -i "$SSH_KEY_PATH" -o StrictHostKeyChecking=no "$FILE_PATH" "$USERNAME@$SERVER_IP:~/"
+
+# checking for a successful transfer
+if [ $? -eq 0 ]; then
+	echo "File transfer successful"
+else
+	echo "File transfer failed"
+	exit
+fi
