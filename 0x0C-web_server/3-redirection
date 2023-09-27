@@ -21,7 +21,8 @@ REDIRECT="/^\s*location \/ {/a \\\t\\trewrite ^\/redirect_me(.*) $RD_ADDRESS per
 
 sudo sed -i "$REDIRECT" $FILE
 # Reloading nginx configuration
-sudo nginx -s reload
+###sudo nginx -s reload
+sudo service nginx restart
 
 # Message if Nginx setup complete
 echo "Nginx setup complete"
