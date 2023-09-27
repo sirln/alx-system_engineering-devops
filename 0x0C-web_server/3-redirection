@@ -15,7 +15,7 @@ echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 FILE="/etc/nginx/sites-available/default"
 
 # Configuring nginx to listen on port 80
-sudo sed -i 's/listen [^;]*;/listen 80;/g' $FILE
+#sudo sed -i 's/listen [^;]*;/listen 80;/g' $FILE
 
 # Configuring nginx to redirect '/redirect_me'
 RD_ADDRESS="https://www.sirlawren.com"
