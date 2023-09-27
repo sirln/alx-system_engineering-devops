@@ -11,6 +11,9 @@ sudo service nginx start
 # Creating index file in /var/www/html/
 echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
+# Creating a custom 404 page in /var/www/html/
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+
 # File path for the default Nginx configuration
 FILE="/etc/nginx/sites-available/default"
 
@@ -19,13 +22,12 @@ FILE="/etc/nginx/sites-available/default"
 
 # Configuring nginx to redirect '/redirect_me'
 RD_ADDRESS="https://www.sirlawren.com"
-##REDIRECT="location /redirect_me {\\n\\t\\treturn 301 $RD_ADDRESS; \\n\\t}"
+REDIRECT="location /redirect_me {\\n\\t\\treturn 301 $RD_ADDRESS; \\n\\t}"
 
-##sudo sed -i "/^\\t}/a \\\n\\t$REDIRECT" $FILE
-sudo sed -i "/^\\t}$/a \\\n\tlocation /redirect_me {\\n\\t\\treturn 301 $RD_ADDRESS;\\n\\t}" $FILE
+sudo sed -i "/^\s*server {/a \\\t$REDIRECT" $FILE
 
 # Reloading nginx configuration
 sudo nginx -s reload
 
 # Message if Nginx setup complete
-#echo "Nginx setup complete"
+echo "Nginx setup complete"
