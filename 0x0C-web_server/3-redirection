@@ -21,7 +21,7 @@ sudo sed -i 's/listen [^;]*;/listen 80;/g' $FILE
 RD_ADDRESS="https://www.sirlawren.com"
 REDIRECT="location /redirect_me {\\n\\t\\treturn 301 $RD_ADDRESS; \\n\\t}"
 
-sudo sed -i "/^\s*server {/a \\\t$REDIRECT" $FILE
+sudo sed -i "/^\\t}/a \\\n\\t$REDIRECT" $FILE
 # Reloading nginx configuration
 sudo nginx -s reload
 
