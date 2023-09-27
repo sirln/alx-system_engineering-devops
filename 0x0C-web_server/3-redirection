@@ -27,4 +27,4 @@ sudo sed -i "/^}$/i \ \n\tlocation /redirect_me {return 301 $RD_ADDRESS;}" $FILE
 sudo nginx -s reload
 
 # Message if Nginx setup complete
-echo "Nginx setup complete"
+#echo "Nginx setup complete"
