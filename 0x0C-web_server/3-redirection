@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Updating package list
+sudo apt update
+
+# Installing ngix web server
+sudo apt -y install nginx
+
+# Start nginx server
+sudo service nginx start
+
+# Creating index file in /var/www/html/
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+# Configuring nginx to listen on port 80
+sudo sed -i 's/listen [^;]*;/listen 80;/g' /etc/nginx/sites-available/default
+
+# Configuring nginx to redirect '/redirect_me'
+FILE="/etc/nginx/sites-available/default"
+RD_ADDRESS="https://www.sirlawren.com"
+REDIRECT="/^\s*location \/ {/a \\\t\\trewrite ^\/redirect_me(.*) $RD_ADDRESS permanent;"
+
+sudo sed -i "$REDIRECT" $FILE
+# Reloading nginx configuration
+sudo nginx -s reload
+
+# Message if Nginx setup complete
+echo "Nginx setup complete"
