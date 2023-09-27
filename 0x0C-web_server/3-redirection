@@ -30,4 +30,4 @@ sudo sed -i "/^\\t}/a \\\n\\t$REDIRECT" $FILE
 sudo nginx -s reload
 
 # Message if Nginx setup complete
-echo "Nginx setup complete"
+#echo "Nginx setup complete"
