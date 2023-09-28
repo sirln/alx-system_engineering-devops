@@ -1,40 +1,53 @@
 #!/usr/bin/env bash
-# Updating package list
+# ---- Updating package list ----
 sudo apt update
 
-# Installing ngix web server
+# ---- Installing ngix web server ----
 sudo apt -y install nginx
 
-# Start nginx server
+# ---- Start nginx server ----
 sudo service nginx start
 
-# Creating index file in /var/www/html/
+# ---- Creating index file in /var/www/html/ ----
 echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
-# Creating a custom 404 page in /var/www/html/
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+# ---- Create a custom 404 error page ----
+ROOT="/var/www/html"
+CUSTOM_404="/custom_404.html"
+#ERR_PAGE="/var/www/html/custom_404.html"
+echo "Ceci n'est pas une page" | sudo tee $ROOT$CUSTOM_404 > /dev/null
 
-# File path for the default Nginx configuration
+# ---- File path for the default Nginx configuration ----
 FILE="/etc/nginx/sites-available/default"
 
-# Configuring nginx to listen on port 80
-#sudo sed -i 's/listen [^;]*;/listen 80;/g' $FILE
+# ---- Configuring nginx to listen on port 80 ----
+# sudo sed -i 's/listen [^;]*;/listen 80 default_server;/g' $FILE
+#sed -i "s/listen [0-9]\+ default_server;/listen 80 default_server;/" $FILE
+#sed -i "s/listen \[::\]:[0-9]\+ default_server;/listen [::]:80 default_server;/" $FILE
 
-# Configuring nginx to redirect '/redirect_me'
-#RD_ADDRESS="https://www.sirlawren.com"
-#REDIRECT="location /redirect_me {\\n\\t\\treturn 301 $RD_ADDRESS; \\n\\t}"
+# ---- Configuring nginx 301 redirection for '/redirect_me' ----
+RD_ADDRESS="https://www.sirlawren.com"
+# REDIRECT="/^\s*location \/ {/a \\\t\\trewrite ^\/redirect_me(.*) $RD_ADDRESS permanent;"
+# sudo sed -i "$REDIRECT" $FILE
+REDIRECT="location /redirect_me {\n\t\t\treturn 301 $RD_ADDRESS; \n\t}"
 
-#sudo sed -i "/^\s*server {/a \\\t$REDIRECT" $FILE
-
-# Setting up the custom 404 page in the Nginx default configuration
-CUSTOM_404_CONFIG="error_page 404 /404.html; \\n\\tlocation = /var/www/html/404.html { \\n\\tinternal; \\n\\t}"
-
-# Inserting the custom 404 config into the Nginx default config
-sudo sed -i "/^\s*server {/a \\\t$CUSTOM_404_CONFIG" $FILE
+#sudo sed -i "/^\t}/a \\\n\t$REDIRECT" $FILE
+##sudo sed -i "/server_name _;/a \\\n\t$REDIRECT" $FILE
+sudo sed -i ":a;N;\$!ba;s|\(location [^{}]*{\)[^{}]*\}|$REDIRECT|1" $FILE
 
 
-# Reloading nginx configuration
-sudo nginx -s reload
+# ---- Configure Nginx to use this page for 404 errors ----
+HANDLE_ERROR="error_page 404 $CUSTOM_404;"
+sudo sed -i "/^\t}/a \\\n\t$HANDLE_ERROR" $FILE
 
-# Message if Nginx setup complete
-echo "Nginx setup complete"
+# ---- Configure the custom 404 page to be internally accessible only ----
+INTERNAL_404="location = /custom_404.html {\n\t\troot $ROOT;\n\t\tinternal;\n\t}"
+sudo sed -i "/error_page .*;/a \\\t$INTERNAL_404" $FILE
+
+
+# ---- Reloading nginx configuration ----
+# sudo nginx -s reload
+sudo service nginx restart
+
+# ---- Message if Nginx setup complete ----
+#echo "Nginx setup complete"
