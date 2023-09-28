@@ -15,7 +15,7 @@ echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 ROOT="/var/www/html"
 CUSTOM_404="/custom_404.html"
 #ERR_PAGE="/var/www/html/custom_404.html"
-echo "Ceci n'est pas une page" | sudo tee $ROOT$CUSTOM_404 > /dev/null
+echo -e "Ceci n'est pas une page\n" | sudo tee $ROOT$CUSTOM_404 > /dev/null
 
 # ---- File path for the default Nginx configuration ----
 FILE="/etc/nginx/sites-available/default"
