@@ -37,12 +37,15 @@ sudo sed -i ":a;N;\$!ba;s|\(location [^{}]*{\)[^{}]*\}|$REDIRECT|1" $FILE
 
 
 # ---- Configure Nginx to use this page for 404 errors ----
-HANDLE_ERROR="error_page 404 $CUSTOM_404;"
-sudo sed -i "/^\t}/a \\\n\t$HANDLE_ERROR" $FILE
+#HANDLE_ERROR="error_page 404 $CUSTOM_404;"
+#sudo sed -i "/^\t}/a \\\n\t$HANDLE_ERROR" $FILE
+HANDLE_ERROR="error_page 404 =301 $CUSTOM_404;"
+INTERNAL_404="location /custom_404.html {\n\t\t$HANDLE_ERROR\n\t}"
+sudo sed -i "/^\t}/a \\\n\t$INTERNAL_404" $FILE
 
 # ---- Configure the custom 404 page to be internally accessible only ----
-INTERNAL_404="location = /custom_404.html {\n\t\troot $ROOT;\n\t\tinternal;\n\t}"
-sudo sed -i "/error_page .*;/a \\\t$INTERNAL_404" $FILE
+#INTERNAL_404="location = /custom_404.html {\n\t\troot $ROOT;\n\t\tinternal;\n\t}"
+#sudo sed -i "/error_page .*;/a \\\t$INTERNAL_404" $FILE
 
 
 # ---- Reloading nginx configuration ----
