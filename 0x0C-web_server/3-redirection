@@ -22,8 +22,9 @@ RD_ADDRESS="https://www.sirlawren.com"
 REDIRECT="location /redirect_me {\n\t\t\treturn 301 $RD_ADDRESS; \n\t}"
 
 #sudo sed -i "/^\t}/a \\\n\t$REDIRECT" $FILE
-sudo sed -i "/server_name _;/a \\\n\t$REDIRECT" $FILE
-
+##sudo sed -i "/server_name _;/a \\\n\t$REDIRECT" $FILE
+###sudo sed -i ":a;N;\$!ba;s|\(location .* {\)[^{}]*\}|$REDIRECT|1" $FILE
+sudo sed -i ":a;N;\$!ba;s|\(location [^{}]*{\)[^{}]*\}|$REDIRECT|1" $FILE
 
 # Reloading nginx configuration
 sudo nginx -s reload
