@@ -40,7 +40,7 @@ sudo sed -i ":a;N;\$!ba;s|\(location [^{}]*{\)[^{}]*\}|$REDIRECT|1" $FILE
 #HANDLE_ERROR="error_page 404 $CUSTOM_404;"
 #sudo sed -i "/^\t}/a \\\n\t$HANDLE_ERROR" $FILE
 HANDLE_ERROR="error_page 404 =301 $CUSTOM_404;"
-INTERNAL_404="location /custom_404.html {\n\t\t$HANDLE_ERROR\n\t}"
+INTERNAL_404="location /custom_404 {\n\t\t$HANDLE_ERROR\n\t}"
 sudo sed -i "/^\t}/a \\\n\t$INTERNAL_404" $FILE
 
 # ---- Configure the custom 404 page to be internally accessible only ----
