@@ -27,7 +27,8 @@ REDIRECT="location /redirect_me {\n\t\t\treturn 301 $RD_ADDRESS; \n\t}"
 sudo sed -i ":a;N;\$!ba;s|\(location [^{}]*{\)[^{}]*\}|$REDIRECT|1" $FILE
 
 # Reloading nginx configuration
-sudo nginx -s reload
+#sudo nginx -s reload
+sudo service nginx restart
 
 # Message if Nginx setup complete
 #echo "Nginx setup complete"
