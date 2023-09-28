@@ -18,10 +18,12 @@ FILE="/etc/nginx/sites-available/default"
 #sudo sed -i 's/listen [^;]*;/listen 80;/g' $FILE
 
 # Configuring nginx to redirect '/redirect_me'
-RD_ADDRESS="https://www.sirlawren.com"
-REDIRECT="location /redirect_me {\n\t\treturn 301 $RD_ADDRESS; \n\t}"
+#RD_ADDRESS="https://www.sirlawren.com"
+#REDIRECT="location /redirect_me {\n\t\treturn 301 $RD_ADDRESS; \n\t}"
 
-sudo sed -i "/^\t}/a \\\n\t$REDIRECT" $FILE
+#sudo sed -i "/^\t}/a \\\n\t$REDIRECT" $FILE
+
+sudo sed -i '/^}$/i \ \n\tlocation \/redirect_me {return 301 https:\/\/www.sirlawren.com;}' $FILE
 
 # Reloading nginx configuration
 sudo nginx -s reload
