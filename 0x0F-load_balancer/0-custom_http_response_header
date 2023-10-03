@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# ---- Updating package list ----
+sudo apt update
+
+# ---- Installing ngix web server ----
+sudo apt -y install nginx
+
+# ---- Start nginx server ----
+sudo service nginx start
+
+# ---- Creating index file in /var/www/html/ ----
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+# ---- Create a custom 404 error page ----
+ROOT="/var/www/html"
+CUSTOM_404="/custom_404.html"
+#ERR_PAGE="/var/www/html/custom_404.html"
+echo -e "Ceci n'est pas une page\n" | sudo tee $ROOT$CUSTOM_404 > /dev/null
+
+# ---- File path for the default Nginx configuration ----
+FILE="/etc/nginx/sites-available/default"
+
+# ---- Configuring nginx to listen on port 80 ----
+# sudo sed -i 's/listen [^;]*;/listen 80 default_server;/g' $FILE
+sed -i "s/listen [0-9]\+ default_server;/listen 80 default_server;/" $FILE
+sed -i "s/listen \[::\]:[0-9]\+ default_server;/listen [::]:80 default_server;/" $FILE
+
+# ---- Configuring nginx 301 redirection for '/redirect_me' ----
+#RD_ADDRESS="https://www.sirlawren.com"
+RD_ADDRESS="https://www.youtube.com/watch?v=QH2-TGUlwu4"
+# REDIRECT="/^\s*location \/ {/a \\\t\\trewrite ^\/redirect_me(.*) $RD_ADDRESS permanent;"
+# sudo sed -i "$REDIRECT" $FILE
+REDIRECT="location /redirect_me {\n\t\t\treturn 301 $RD_ADDRESS; \n\t}"
+
+#sudo sed -i "/^\t}/a \\\n\t$REDIRECT" $FILE
+##sudo sed -i "/server_name _;/a \\\n\t$REDIRECT" $FILE
+sudo sed -i ":a;N;\$!ba;s|\(location [^{}]*{\)[^{}]*\}|$REDIRECT|1" $FILE
+
+
+# ---- Configure Nginx to use this page for 404 errors ----
+HANDLE_ERROR="error_page 404 $CUSTOM_404;"
+sudo sed -i "/^\t}/a \\\n\t$HANDLE_ERROR" $FILE
+##HANDLE_ERROR="error_page 404 =301 $CUSTOM_404;"
+##INTERNAL_404="location /custom_404 {\n\t\t$HANDLE_ERROR\n\t}"
+##sudo sed -i "/^\t}/a \\\n\t$INTERNAL_404" $FILE
+
+# ---- Configure the custom 404 page to be internally accessible only ----
+INTERNAL_404="location = /custom_404.html {\n\t\troot $ROOT;\n\t\tinternal;\n\t}"
+sudo sed -i "/error_page .*;/a \\\t$INTERNAL_404" $FILE
+
+
+# ---- Configure Nginx for a custom header ----
+HOSTNAME=$(hostname)
+HTTP_HEADER="add_header X-Served-By $HOSTNAME;"
+sudo sed -i "/^\tlisten \[::\].*;/a \\\t$HTTP_HEADER" $FILE
+
+
+# ---- Reloading nginx configuration ----
+# sudo nginx -s reload
+sudo service nginx restart
+
+# ---- Message if Nginx setup complete ----
+#echo "Nginx setup complete"
