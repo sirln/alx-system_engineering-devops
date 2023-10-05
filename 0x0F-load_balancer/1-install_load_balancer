@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# ---- Updating package list ----
+sudo apt update
+
+# ---- Installing HAproxy server ----
+sudo apt -y install haproxy
+
+
+# ---- Default config file path for HAproxy Server ----
+FILE="/etc/haproxy/haproxy.cfg"
+
+# ---- Backup origninal config file if no backup ----
+if [ ! -f $FILE.bak ]; then
+    sudo cp $FILE $FILE.bak
+fi
+
+
+# ---- Append below configuration ----
+echo "
+frontend    http
+    bind    *:80
+    default_backend web_backend_servers
+
+backend web_backend_servers
+    balance roundrobin
+    server  web_01 325936-web-01:80 check
+    server  web_02 325936-web-02:80 check
+" | sudo tee -a $FILE
+
+
+# ---- Restoring/backing up original /etc/hosts file ----
+HOSTS_FILE="/etc/hosts"
+if [ ! -f $HOSTS_FILE.bak ]; then
+    sudo cp $HOSTS_FILE $HOSTS_FILE.bak
+    echo "Backup for $HOSTS_FILE created!"
+else
+    sudo cp $HOSTS_FILE.bak $HOSTS_FILE
+    echo "Restored original $HOSTS_FILE from backup"
+fi
+
+# ---- add web servers' ips to load balancer /etc/hosts file
+echo -e '\n54.164.87.125\tweb_01\t325936-web-01' | sudo tee -a $HOSTS_FILE
+echo -e '\n34.229.56.141\tweb_02\t325936-web-02' | sudo tee -a $HOSTS_FILE
+
+# ---- Check if haproxy service is enabled ----
+sudo systemctl is-enabled haproxy > /dev/null
+COMMAND=$?
+if [ $COMMAND -ne 0 ]; then
+    sudo systemmctl enable haproxy
+    echo "haproxy service has been enabled."
+else
+    echo "haproxy service is already enabled."
+fi
+
+# ---- Restarting HAproxy server to sync configurations ----
+sudo service haproxy restart
+
+# ---- Message when Load Balancer/HAproxy server setup is complete ----
+echo "Load Balancer setup complete"
