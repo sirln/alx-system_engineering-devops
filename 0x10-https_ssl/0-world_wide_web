@@ -1,4 +1,5 @@
 #!/bin/bash
+# scripts that takes a subdomain and a domain and displays information about it.
 
 # Function to retrieve DNS information
 get_dns_info() {
