@@ -1,21 +1,14 @@
-# creating a custom HTTP header response using puppet
+# add a custom HTTP header X-Served-By
 
-# Installing nginx server
-exec {'Nginx_server-install':
-    command => ['sudo apt-get -y update && sudo apt -y install nginx && sudo service nginx start'],
-    path    =>  ['/bin', '/usr/bin'],
+exec {'update_system':
+  command => '/usr/bin/apt-get -y update',
+  before  => Exec['install_nginx'],
 }
 
-# Ensure the nginx package is installed
-package { 'nginx':
-  ensure => installed,
-}
-
-# Ensure the nginx service is running and enabled at boot
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => Package['nginx'],
+exec {'install_nginx':
+  provider => shell,
+  command  => 'sudo apt-get -y install nginx',
+  before   => Exec['add_custom_header'],
 }
 
 # Capture the hostname using Puppet's facter
@@ -28,4 +21,9 @@ file_line { 'nginx_custom_header':
   match   => '^add_header X-Served-By',
   require => Package['nginx'],
   notify  => Service['nginx'],  # Restart Nginx if the file changes
+}
+
+exec { 'restart_nginx':
+  provider => shell,
+  command  => 'sudo service nginx restart',
 }
