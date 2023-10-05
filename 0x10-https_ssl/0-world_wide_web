@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Function to fetch and display DNS record information
+get_dns_record() {
+    local domain="$1"
+    local subdomain="$2"
+    
+    local record=$(dig +short -t A "${subdomain}.${domain}")
+    if [[ -n "$record" ]]; then
+        echo "The subdomain ${subdomain} is an A record and points to ${record}."
+    else
+        echo "The subdomain ${subdomain} for domain ${domain} does not have a valid A record."
+    fi
+}
+
+# Validate input
+if [[ -z "$1" ]]; then
+    echo "Error: Domain parameter is mandatory."
+    exit 1
+fi
+
+domain="$1"
+subdomain="$2"
+
+# If only domain provided, show info for www, lb-01, web-01, web-02
+# Else, display info for the specific subdomain
+if [[ -z "$subdomain" ]]; then
+    for s in www lb-01 web-01 web-02; do
+        get_dns_record "$domain" "$s"
+    done
+else
+    get_dns_record "$domain" "$subdomain"
+fi
