@@ -11,16 +11,11 @@ exec {'install_nginx':
   before   => Exec['add_custom_header'],
 }
 
-# Capture the hostname using Puppet's facter
-$server_hostname = $facts['networking']['hostname']
-
-# Add the custom HTTP header to the default site configuration
-file_line { 'nginx_custom_header':
-  path    => '/etc/nginx/sites-available/default',
-  line    => "add_header X-Served-By ${server_hostname};",
-  match   => '^add_header X-Served-By',
-  require => Package['nginx'],
-  notify  => Service['nginx'],  # Restart Nginx if the file changes
+exec { 'add_custom_header':
+  environment => ["host=$hostname"],
+  provider    => shell,
+  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$host\";/" /etc/nginx/nginx.conf',
+  before      => Exec['restart_nginx'],
 }
 
 exec { 'restart_nginx':
