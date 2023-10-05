@@ -4,8 +4,9 @@
 get_dns_record() {
     local domain="$1"
     local subdomain="$2"
-    
-    local record=$(dig +short -t A "${subdomain}.${domain}")
+
+    local record
+    record=$(dig +short -t A "${subdomain}.${domain}")
     if [[ -n "$record" ]]; then
         echo "The subdomain ${subdomain} is an A record and points to ${record}."
     else
