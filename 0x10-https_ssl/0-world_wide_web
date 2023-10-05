@@ -5,8 +5,10 @@ get_dns_record() {
     local domain="$1"
     local subdomain="$2"
 
+    # Using dig and awk together to get the A record IP
     local record
-    record=$(dig +short -t A "${subdomain}.${domain}")
+    record=$(dig -t A "${subdomain}.${domain}" | awk '/^'"${subdomain}.${domain}"'/ {print $5}')
+
     if [[ -n "$record" ]]; then
         echo "The subdomain ${subdomain} is an A record and points to ${record}."
     else
