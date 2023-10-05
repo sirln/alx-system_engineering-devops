@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# creating a smylink of the default available site
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx start
+sudo pkill -o nginx
