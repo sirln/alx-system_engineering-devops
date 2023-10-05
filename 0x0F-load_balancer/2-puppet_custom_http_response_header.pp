@@ -2,8 +2,8 @@
 
 # Installing nginx server
 exec {'Nginx_server-install':
-    command => ['sudo apt-get -y update && sudo apt -y install nginx && sudo service nginx start']
-    path    =>  ['/bin', '/usr/bin']
+    command => ['sudo apt-get -y update && sudo apt -y install nginx && sudo service nginx start'],
+    path    =>  ['/bin', '/usr/bin'],
 }
 
 # Ensure the nginx package is installed
