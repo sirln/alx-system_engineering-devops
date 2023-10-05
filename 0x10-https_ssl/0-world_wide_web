@@ -1,36 +1,21 @@
 #!/bin/bash
 # scripts that takes a subdomain and a domain and displays information about it.
 
-# Function to retrieve DNS information
-get_dns_info() {
-    local domain="$1"
-    local subdomain="$2"
+domain=$1
 
-    # Get DNS record using dig and parse using awk
-    result=$(dig "$subdomain.$domain" | awk '/^;; ANSWER SECTION:$/ { getline; split($0, arr, " "); print arr[5] }')
-
-    # Check the type of the record
-    record_type="A"  # Here we assume all are A records; modify if you have other record types
-
-    # Print the result
-    echo "The subdomain $subdomain is a $record_type record and points to $result"
+subdomain_info ()
+{
+    for arg
+    do
+        echo -n "The subdomain $arg is a "
+        dig "$arg"."$domain" | grep -A1 'ANSWER SECTION:' | tail -n 1 | awk '{print $4 " record and points to " $5}'
+    done
 }
 
-# Check arguments
-if [ -z "$1" ]; then
-    echo "Usage: $0 domain [subdomain]"
-    exit 1
-fi
-
-domain="$1"
-
-# If subdomain is provided
-if [ -n "$2" ]; then
-    subdomain="$2"
-    get_dns_info "$domain" "$subdomain"
+if [ $# -eq 1 ]
+then
+    subdomain_info 'www' 'lb-01' 'web-01' 'web-02'
 else
-    # Iterate over default subdomains
-    for sub in www lb-01 web-01 web-02; do
-        get_dns_info "$domain" "$sub"
-    done
+   subdomain=$2
+   subdomain_info "$subdomain"
 fi
