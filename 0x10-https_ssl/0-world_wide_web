@@ -1,36 +1,35 @@
 #!/bin/bash
 
-# Function to fetch and display DNS record information
-get_dns_record() {
+# Function to retrieve DNS information
+get_dns_info() {
     local domain="$1"
     local subdomain="$2"
 
-    # Using dig and awk together to get the A record IP
-    local record
-    record=$(dig -t A "${subdomain}.${domain}" | awk '/^'"${subdomain}.${domain}"'/ {print $5}')
+    # Get DNS record using dig and parse using awk
+    result=$(dig "$subdomain.$domain" | awk '/^;; ANSWER SECTION:$/ { getline; split($0, arr, " "); print arr[5] }')
 
-    if [[ -n "$record" ]]; then
-        echo "The subdomain ${subdomain} is an A record and points to ${record}."
-    else
-        echo "The subdomain ${subdomain} for domain ${domain} does not have a valid A record."
-    fi
+    # Check the type of the record
+    record_type="A"  # Here we assume all are A records; modify if you have other record types
+
+    # Print the result
+    echo "The subdomain $subdomain is a $record_type record and points to $result"
 }
 
-# Validate input
-if [[ -z "$1" ]]; then
-    echo "Error: Domain parameter is mandatory."
+# Check arguments
+if [ -z "$1" ]; then
+    echo "Usage: $0 domain [subdomain]"
     exit 1
 fi
 
 domain="$1"
-subdomain="$2"
 
-# If only domain provided, show info for www, lb-01, web-01, web-02
-# Else, display info for the specific subdomain
-if [[ -z "$subdomain" ]]; then
-    for s in www lb-01 web-01 web-02; do
-        get_dns_record "$domain" "$s"
-    done
+# If subdomain is provided
+if [ -n "$2" ]; then
+    subdomain="$2"
+    get_dns_info "$domain" "$subdomain"
 else
-    get_dns_record "$domain" "$subdomain"
+    # Iterate over default subdomains
+    for sub in www lb-01 web-01 web-02; do
+        get_dns_info "$domain" "$sub"
+    done
 fi
