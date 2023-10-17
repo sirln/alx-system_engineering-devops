@@ -28,7 +28,7 @@ sed -i "s/listen \[::\]:[0-9]\+ default_server;/listen [::]:8080 default_server;
 nginx -t
 
 # If it's successful, reload nginx
-if [ $? -eq 0 ]; then
+if mycmd -eq 0; then
     service nginx reload
 else
     echo "Nginx configuration test failed"
