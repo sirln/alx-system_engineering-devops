@@ -2,30 +2,32 @@
 #script to make a MySQL backup
 
 # Check if a password is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <MySQL root password>"
-    exit 1
-fi
+#if [ "$#" -ne 1 ]; then
+#    echo "Usage: $0 <MySQL root password>"
+#    exit 1
+#fi
 
 # MySQL user and password
-USER="root"
-PASSWORD="$1"
+#USER="root"
+#PASSWORD="$1"
 
-if ! mysqldump -u "$USER" -p "$PASSWORD" --all-databases > backup.sql; then
-    echo "MySQL dump failed!"
-    exit 1
-fi
+#if ! mysqldump -u "$USER" -p "$PASSWORD" --all-databases > backup.sql; then
+#    echo "MySQL dump failed!"
+#    exit 1
+#fi
 
 # Compress the SQL dump to tar.gz with the required format
 #DATE_FORMAT=$(date +'%d-%m-%Y')
 
-if tar -czvf "$(date +%d-%m-%Y).tar.gz" backup.sql; then
-    echo "Backup was successfully created: "$(date +%d-%m-%Y).tar.gz"
-else
-    echo "Failed to create the compressed backup."
-fi
+#if tar -czvf "$(date +%d-%m-%Y).tar.gz" backup.sql; then
+#    echo "Backup was successfully created: "$(date +%d-%m-%Y).tar.gz"
+#else
+#    echo "Failed to create the compressed backup."
+#fi
 
 # Optionally, clean up by removing the backup.sql file
 ##rm -f backup.sql
 #mysqldump -u root -p "$1" --all-databases > backup.sql
 #tar -czvf "$(date '+%d-%m-%Y')".tar.gz backup.sql
+mysqldump -u root -p"$1" --all-databases > backup.sql
+tar -czvf "$(date +%d-%m-%Y).tar.gz" backup.sql
