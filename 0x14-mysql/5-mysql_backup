@@ -11,7 +11,7 @@ fi
 USER="root"
 PASSWORD="$1"
 
-if ! mysqldump -u "$USER" -p"$PASSWORD" --all-databases > backup.sql; then
+if ! mysqldump -u "$USER" -p "$PASSWORD" --all-databases > backup.sql; then
     echo "MySQL dump failed!"
     exit 1
 fi
@@ -19,7 +19,7 @@ fi
 # Compress the SQL dump to tar.gz with the required format
 DATE_FORMAT=$(date +"%d-%m-%Y")
 
-if tar -czvf "${DATE_FORMAT}.tar.gz" backup.sql; then
+if tar -czvf "${DATE_FORMAT}".tar.gz backup.sql; then
     echo "Backup was successfully created: ${DATE_FORMAT}.tar.gz"
 else
     echo "Failed to create the compressed backup."
