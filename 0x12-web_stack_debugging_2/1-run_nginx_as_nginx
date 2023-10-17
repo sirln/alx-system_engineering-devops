@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Check if script is run as root
-if [ "$EUID" -ne 0 ]
-then 
-    echo "Please run as root"
-    exit
-fi
+#if [ "$EUID" -ne 0 ]
+#then 
+#    echo "Please run as root"
+#    exit
+#fi
 
 # Ensure the nginx user exists
 if ! id "nginx" &>/dev/null; then
