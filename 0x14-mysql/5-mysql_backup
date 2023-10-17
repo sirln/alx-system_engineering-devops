@@ -20,7 +20,7 @@ fi
 #DATE_FORMAT=$(date +'%d-%m-%Y')
 
 if tar -czvf "$(date +%d-%m-%Y).tar.gz" backup.sql; then
-    echo "Backup was successfully created: ${DATE_FORMAT}.tar.gz"
+    echo "Backup was successfully created: "$(date +%d-%m-%Y).tar.gz"
 else
     echo "Failed to create the compressed backup."
 fi
