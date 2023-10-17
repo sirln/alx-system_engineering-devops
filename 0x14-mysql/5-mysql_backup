@@ -28,4 +28,4 @@
 # Optionally, clean up by removing the backup.sql file
 ##rm -f backup.sql
 mysqldump -u root -p "$1" --all-databases > backup.sql
-tar -czvf "$(date +%d-%m-%Y)".tar.gz backup.sql
+tar -czvf "$(date '+%d-%m-%Y')".tar.gz backup.sql
