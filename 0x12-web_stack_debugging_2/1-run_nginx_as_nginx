@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # Check if script is run as root
-#if [ "$EUID" -ne 0 ]
-#then 
-#    echo "Please run as root"
-#    exit
-#fi
+if [ "$EUID" -ne 0 ]
+then 
+    echo "Please run as root"
+    exit
+fi
 
 # Ensure the nginx user exists
 if ! id "nginx" &>/dev/null; then
@@ -19,16 +19,14 @@ NGINX_CONF_FILE="$NGINX_CONF_DIR/nginx.conf"
 # Set the nginx user
 sed -i 's/^user .*/user nginx;/' $NGINX_CONF_FILE
 
-# Set the nginx listener port to 8080
+# Set the nginx listener port to 8080 for IPv4
 sed -i "s/listen [0-9]\+ default_server;/listen 8080 default_server;/" $NGINX_CONF_FILE
+# Set the nginx listener port to 8080 for IPv6
 sed -i "s/listen \[::\]:[0-9]\+ default_server;/listen [::]:8080 default_server;/" $NGINX_CONF_FILE
 
 
 # Test the nginx configuration
-nginx -t
-
-# If it's successful, reload nginx
-if mycmd -eq 0; then
+if nginx -t; then
     service nginx reload
 else
     echo "Nginx configuration test failed"
