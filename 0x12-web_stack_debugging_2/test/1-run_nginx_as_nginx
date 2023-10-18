@@ -19,7 +19,7 @@ NGINX_CONF_FILE="$NGINX_CONF_DIR/nginx.conf"
 NGINX_DEFAULT_CONF_FILE="/etc/nginx/sites-available/default"
 
 # change permissions so only owner of /etc/nginx/nginx.conf can do things
-chmod 700 $NGINX_CONF_FILE
+sudo chmod 700 $NGINX_CONF_FILE
 
 # Set the nginx user
 sudo sed -i 's/^user .*/user nginx;/' $NGINX_CONF_FILE
@@ -30,19 +30,14 @@ sudo sed -i "s/listen [0-9]\+ default_server;/listen 8080 default_server;/" $NGI
 sudo sed -i "s/listen \[::\]:[0-9]\+ default_server;/listen [::]:8080 default_server;/" $NGINX_DEFAULT_CONF_FILE
 
 # change owner of NGINX directories to user nginx
-chown nginx:nginx $NGINX_CONF_FILE
-chown nginx:nginx $NGINX_DEFAULT_CONF_FILE
-
-
-pkill apache2
+sudo chown root:root $NGINX_CONF_FILE
 
 # Test the nginx configuration
-#if sudo nginx -t; then
-#    sudo -u nginx service nginx reload
-#else
-#    echo "Nginx configuration test failed"
-#    exit 1
-#fi
+if sudo nginx -t; then
+    sudo -u nginx service nginx reload
+else
+    echo "Nginx configuration test failed"
+    exit 1
+fi
 
-su nginx service nginx restart
-#echo "Configuration applied successfully"
+echo "Configuration applied successfully"
