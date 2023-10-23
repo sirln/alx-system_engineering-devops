@@ -39,7 +39,7 @@ def get_all_empolyee_tasks():
             organized_data[user_id].append(task_info)
 
     with open(f"todo_all_employees.json", "w") as file:
-        json.dump(organized_data, file, indent=4)
+        json.dump(organized_data, file)
 
 
 if __name__ == '__main__':
