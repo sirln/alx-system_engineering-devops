@@ -38,5 +38,5 @@ def get_todo_progress(employee_id):
 if __name__ == '__main__':
     # Accept integer as a parameter for employee ID
     # and display TODO list progress
-    employee_id = argv[1]
+    employee_id = int(argv[1])
     get_todo_progress(employee_id)

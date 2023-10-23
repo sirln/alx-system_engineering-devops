@@ -16,7 +16,7 @@ def get_todo_and_export(employee_id):
     # Fetch user information
     user_response = requests.get(user_url)
     user_data = user_response.json()
-    employee_name = user_data['name']
+    employee_name = user_data['username']
 
     # Fetch TODOs for the user
     todos_response = requests.get(todos_url)
@@ -58,5 +58,5 @@ def get_todo_and_export(employee_id):
 if __name__ == '__main__':
     # Accept integer as a parameter for employee ID
     # and display TODO list progress
-    employee_id = argv[1]
+    employee_id = int(argv[1])
     get_todo_and_export(employee_id)
