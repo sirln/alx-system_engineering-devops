@@ -5,6 +5,7 @@ Python REST API
 import requests
 from sys import argv
 
+
 def get_todo_progress(employee_id):
     # Define URLs to fetch data from
     api_url = "https://jsonplaceholder.typicode.com"
