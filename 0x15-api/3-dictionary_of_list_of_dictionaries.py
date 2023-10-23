@@ -41,8 +41,6 @@ def get_all_empolyee_tasks():
     with open(f"todo_all_employees.json", "w") as file:
         json.dump(organized_data, file, indent=4)
 
-    print("Data exported to todo_all_employees.json!")
-
 
 if __name__ == '__main__':
     get_all_empolyee_tasks()
