@@ -22,28 +22,9 @@ def get_todo_and_export(employee_id):
     todos_response = requests.get(todos_url)
     todos_data = todos_response.json()
 
-    # Calculate total number of tasks and number of completed tasks
-    total_tasks = len(todos_data)
-    done_tasks = sum(1 for todo in todos_data if todo['completed'])
-
-    # Display the progress
-    print(f"Employee {employee_name} is done with tasks\
-({done_tasks}/{total_tasks}):")
-
-    # Display titles of completed tasks
-    # for todo in todos_data:
-    #     if todo['completed']:
-    #        print(f"\t {todo['title']}")
-
     # Write tasks to CSV
     with open(f"{employee_id}.csv", 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-
-        # Write header row
-        writer.writerow(["USER_ID",
-                         "USERNAME",
-                         "TASK_COMPLETED_STATUS",
-                         "TASK_TITLE"])
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
         # Write task data
         for todo in todos_data:
