@@ -40,14 +40,19 @@ def get_todo_and_export(employee_id):
         writer = csv.writer(csvfile)
 
         # Write header row
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        writer.writerow(["USER_ID",
+                         "USERNAME",
+                         "TASK_COMPLETED_STATUS",
+                         "TASK_TITLE"])
 
         # Write task data
         for todo in todos_data:
-            writer.writerow([employee_id, employee_name, todo['completed'], todo['title']])
+            writer.writerow([employee_id,
+                             employee_name,
+                             todo['completed'],
+                            todo['title']])
 
     print(f"Data exported to {employee_id}.csv")
-
 
 
 if __name__ == '__main__':
