@@ -6,6 +6,7 @@ for a given subreddit
 '''
 import requests
 
+
 def top_ten(subreddit):
     url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=10'
     headers = {'User-Agent': 'subreddit 10 hot posts'}
@@ -17,4 +18,4 @@ def top_ten(subreddit):
         for post in posts:
             print(post['data']['title'])
     except Exception as e:
-        print (None)
+        print(None)

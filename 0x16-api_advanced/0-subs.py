@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 '''
 Module to query the Reddit API
-and return number of subscribers 
+and return number of subscribers
 for a given subreddit
 '''
 import requests
+
 
 def number_of_subscribers(subreddit):
     url = f'https://www.reddit.com/r/{subreddit}/about.json'
