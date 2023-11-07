@@ -27,6 +27,6 @@ def recurse(subreddit, hot_list=[]):
         if after is None:
             return (hot_list)
         else:
-            return (recurse(subreddit))
+            return (recurse(subreddit, hot_list=[]))
     except Exception as e:
         return (None)
