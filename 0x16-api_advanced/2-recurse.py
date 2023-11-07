@@ -7,8 +7,7 @@ for a given subreddit
 import requests
 
 
-def recurse(subreddit):
-    hot_list = []
+def recurse(subreddit, hot_list=[]):
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     headers = {'User-Agent': 'titles of hot articles'}
     after = None
