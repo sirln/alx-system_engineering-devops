@@ -1,5 +1,8 @@
-# Puppet automation script to correct apache2 server config file
+# Puppet automation script to replace .phpp with .php
+# in wp-settings.php apache server config file
+
 exec { 'correting apache config file':
-    command => "/bin/sed -i 's/.phpp/.php/g' /var/www/html/wp-settings.php",
+    path    => ['/bin', '/usr/bin']
+    command => "sed -i 's/.phpp/.php/g' /var/www/html/wp-settings.php",
 }
 
