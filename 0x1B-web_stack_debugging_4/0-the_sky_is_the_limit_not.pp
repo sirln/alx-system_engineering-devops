@@ -4,9 +4,9 @@ file {'/etc/default/nginx':
 }
 
 file_line {'configure nginx ulimit':
-    path    => '/etc/default/nginx',
-    line    => 'ULIMIT="-n unlimited"',
-    match   => '^ULIMIT="-n 15"$',
+    path  => '/etc/default/nginx',
+    line  => 'ULIMIT="-n unlimited"',
+    match => '^ULIMIT="-n 15"$',
 }
 
 service { 'nginx':
