@@ -3,9 +3,9 @@ file {'/etc/default/nginx':
     ensure  => file,
 }
 
-exec { 'adjust-nginx-server-ulimit':
-  command => 'sed -i \'s/^ULIMIT="-n 15"$/ULIMIT="-n unlimited"/\' /etc/security/limits.conf',
-  path    => '/usr/local/bin/:/bin/',
-  notify  => Service['nginx'],
+exec { 'adjust_nginx_ulimit':
+  command     => 'sed -i \'s/^ULIMIT="-n 15"$/ULIMIT="-n unlimited"/\' /etc/default/nginx',
+  path        => '/usr/bin:/bin',
+  notify      => Service['nginx'],
   refreshonly => true,
 }
