@@ -1,8 +1,3 @@
 #!/usr/bin/env bash
 #Reloading gunicorn
-GUNICORN_PORT=5003
-GUNICORN_MASTER_PID=$(pgrep -f "gunicorn.*$GUNICORN_PORT")
-
-for PID in $GUNICORN_PIDS; do
-    kill -s HUP "$PID"
-done
+pgrep gunicorn | xargs -I {} kill -HUP {}
