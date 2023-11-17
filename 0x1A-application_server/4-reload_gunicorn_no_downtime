@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 #Reloading gunicorn
-ps aux | awk '/[g]unicorn/ {print $2}' | xargs kill -HUP > /dev/null 2>&1
+GUNICORN_PORT=5003
+GUNICORN_MASTER_PID=$(pgrep -f "gunicorn.*$GUNICORN_PORT")
+
+for PID in $GUNICORN_PIDS; do
+    kill -s HUP "$PID"
+done
